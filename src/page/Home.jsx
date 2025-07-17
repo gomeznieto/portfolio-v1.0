@@ -17,6 +17,7 @@ import useProject from "../hooks/useProjects";
 import { useEffect } from "react";
 
 const Home = () => {
+  const URL = import.meta.env.VITE_URL;
   const { blogs, loading } = useBlog();
   const { projects } = useProject();
   const { mode } = useMode();
@@ -29,8 +30,9 @@ const Home = () => {
 
   //Networks
   const networks= profile?.networks;
-  const mail = networks?.find((network) => network.social === "Mail").link;
-  const linkedin = networks?.find((network) => network.social === "Linkedin").link;
+  // const mail = networks?.find((network) => network.name === "Mail").url;
+  const mail = profile?.email;
+  const linkedin = networks?.find((network) => network.name === "Linkedin").url;
 
   //Colocamos la posicion en la parte superior
   useEffect(() => {
@@ -62,8 +64,9 @@ const Home = () => {
         <section className="md:flex transition-all-1">
           <AboutMe
             name={profile?.name}
-            rol={profile?.rol}
-            img={profile?.img_personal}
+            // rol={profile?.rol}
+             rol={"Desarrolador"}
+            img={`${URL}${profile?.img}`}
           />
         </section>
       )}
@@ -137,7 +140,7 @@ const Home = () => {
           <Skeleton />
         ) : (
           <>
-            {profile?.bio?.map((bio) => {
+            {profile?.bios?.map((bio) => {
               return <Bio key={bio.year} bio={bio} />;
             })}
           </>
@@ -154,7 +157,7 @@ const Home = () => {
         ) : (
           <div className="flex flex-col items-start">
             {profile?.networks?.map((network) => {
-              return <SocialNetwork key={network.social} network={network} />;
+              return <SocialNetwork key={network.id} network={network} />;
             })}
           </div>
         )}

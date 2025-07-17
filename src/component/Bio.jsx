@@ -3,7 +3,7 @@ import useMode from "../hooks/useMode";
 
 const Bio = ({ bio }) => {
   const { mode } = useMode();
-  const field_bio = bio.goal;
+  const field_bio = bio.work;
   return (
     <div className="flex py-1" key={bio.year}>
       <p className={`font-bold ${mode ? "text-white" : "text-zinc-800"}`}>

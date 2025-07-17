@@ -3,7 +3,7 @@ import useMode from "../hooks/useMode";
 import React from "react";
 
 const Post = ({ obj, href }) => {
-
+  const URL = import.meta.env.VITE_URL;
   const {mode} = useMode();
 
   return (
@@ -11,7 +11,7 @@ const Post = ({ obj, href }) => {
       <div className="flex flex-col items-center mt-2 md:mt-2 cursor-pointer overflow-hidden hover-img">
         <div className="md:w-56 md:h-36 rounded-xl overflow-hidden">
           <img
-            src={obj.cover}
+            src={`${URL}${obj.cover}`}
             alt={obj.title}
           />
         </div>

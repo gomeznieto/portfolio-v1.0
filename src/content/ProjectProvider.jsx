@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useCallback } from "react";
 import { getProyect } from "../config/getProject";
 import { calcularResultado } from "../helper/CalculateEntries";
 
@@ -19,48 +19,44 @@ const ProjectProvider = ({ children }) => {
   let to = ENTRIES * actualPage;
   const [entries, setEntries] = useState([since, to]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      //Verificamos si ya hay datos
-      if (projects.length > 0) return;
-
-      //Obtenemos los datos de la API
-      const data = await getProyect();
-      setProjects(data);
+  const memorizeProyects = useCallback(async()=>{
+      const {data} = await getProyect();
+      setProjects(data.items.filter(el => el.format == 'Works'));
       setPages(Math.ceil(data.length / ENTRIES));
       setLoading(false);
-    };
-
-    fetchData();
-  }, []);
+  },[])
 
   useEffect(() => {
-    //Función para obtener el proyecto por su ID
-    const getProject = async () => {
-      const projectById = projects.filter(
-        (project) => parseInt(project.id) === parseInt(id)
-      );
+    memorizeProyects();
+  }, []);
 
-      setProject(projectById[0]);
-    };
+  // useEffect(() => {
+  //   //Función para obtener el proyecto por su ID
+  //   const getProject = async () => {
+  //     const projectById = projects.filter(
+  //       (project) => parseInt(project.id) === parseInt(id)
+  //     );
 
-     const getProjectById = async () => {
-      //Verificamos si ya hay datos
-      if (projects.length > 0) {
-        await getProject();
-        return;
-      }
+  //     setProject(projectById[0]);
+  //   };
 
-      //Obtenemos los datos de la API
-      const data = await getProyect();
-      setProjects(data);
+  //    const getProjectById = async () => {
+  //     //Verificamos si ya hay datos
+  //     if (projects.length > 0) {
+  //       await getProject();
+  //       return;
+  //     }
 
-      //Filtramos el proyecto por su ID
-      getProject();
-    };
+  //     //Obtenemos los datos de la API
+  //     const data = await getProyect();
+  //     setProjects(data);
 
-    getProjectById();
-  }, [id, projects]);
+  //     //Filtramos el proyecto por su ID
+  //     getProject();
+  //   };
+
+  //   getProjectById();
+  // }, [id, projects]);
 
   return (
     <ProjectContext.Provider

@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react"
+import { createContext, useState, useEffect, useCallback } from "react"
 import { getBlogs } from "../config/getBlogs"
 import { calcularResultado } from "../helper/CalculateEntries";
 
@@ -18,51 +18,45 @@ const BlogProvider = ({children}) => {
   let to = ENTRIES * actualPage;
   const [entries, setEntries] = useState([since, to]);
 
-  useEffect(() => {
-    
-    const fetchData = async () => {
-      //Verificamos si ya hay datos
-      if(blogs.length > 0) return;
-
-      //Obtenemos los datos de la API
-      const data = await getBlogs();
-      setBlogs(data);
+  const memorizeBlog = useCallback(async () => {
+      const {data} = await getBlogs();
+      setBlogs(data.items.filter(el => el.format == 'Posts'));
       setPages(Math.ceil(data.length / ENTRIES))
       setLoading(false);
-    }
-
-    fetchData();
-
   }, [])
 
   useEffect(() => {
+    memorizeBlog();
+  }, [])
 
-    //Función para obtener el proyecto por su ID
-    const getPost = async () => {
-      const postById = blogs.filter((post) => parseInt(post.id) === parseInt(id));
+  // useEffect(() => {
 
-      setBlog(postById[0]);
-    };
+  //   //Función para obtener el proyecto por su ID
+  //   const getPost = async () => {
+  //     const postById = blogs.filter((post) => parseInt(post.id) === parseInt(id));
+
+  //     setBlog(postById[0]);
+  //   };
     
-    const getPostById = async () => {
+  //   const getPostById = async () => {
 
-      //Verificamos si ya hay datos
-      if(blogs.length > 0){
-        await getPost();
-        return;
-      }
+  //     //Verificamos si ya hay datos
+  //     if(blogs.length > 0){
+  //       await getPost();
+  //       return;
+  //     }
 
-      //Obtenemos los datos de la API
-      const data = await getBlogs();
-      setBlogs(data);
+  //     //Obtenemos los datos de la API
+  //     const data = await getBlogs();
+  //     setBlogs(data);
 
-      //Filtramos el proyecto por su ID
-      getPost();
+  //     //Filtramos el proyecto por su ID
+  //     getPost();
 
-    };
+  //   };
 
-    getPostById();
-  }, [id, blogs]);
+  //   getPostById();
+  // }, [id, blogs]);
 
   return (
     <BlogContext.Provider value={
