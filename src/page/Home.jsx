@@ -32,7 +32,7 @@ const Home = () => {
   const networks= profile?.networks;
   // const mail = networks?.find((network) => network.name === "Mail").url;
   const mail = profile?.email;
-  const linkedin = networks?.find((network) => network.name === "Linkedin").url;
+  const linkedin = networks?.find((network) => network.name === "LinkedIn").url;
 
   //Colocamos la posicion en la parte superior
   useEffect(() => {

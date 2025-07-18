@@ -1,34 +1,31 @@
-import { useParams } from "react-router-dom";
+import { useParams, Navigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import useFormat from "../hooks/useFormats";
+import useFormat from "../hooks/useFormat";
 import useMode from "../hooks/useMode";
 import Spinner from "../component/Spinner";
 import { setPosition } from "../config/setPosition";
 import ButtonPages from "../component/ButtonPages";
 import Post from "../component/Post";
 import SkeletonContent from "../component/SkeletonContent";
-import useBlog from "../hooks/useBlog";
+import usePost from "../hooks/usePost";
 
 function DynamicSectionPage() {
   const { dynamicSection } = useParams();
   const { format } = useFormat();
-
-  const [sectionContent, setSectionContent] = useState(dynamicSection);
   const isValidSection = format.some((f) => f.name === dynamicSection);
 
-  const { blogs, loading, pages, ENTRIES, entries } = useBlog();
+  const { posts, loading, pages, ENTRIES, entries, setSection } = usePost();
   const { mode } = useMode();
 
   //Colocamos la posicion en la parte superior
   useEffect(() => {
     setPosition();
-  }, []);
+    setSection(dynamicSection);
+  }, [dynamicSection]);
 
-  if (loading) {
-    return <Spinner />;
-  }
+  if (loading) return <Spinner />;
 
-  if (!sectionContent) return <div>Sección no encontrada o no válida.</div>;
+  if (!isValidSection) return <Navigate to="/" />;
 
   return (
     <>
@@ -43,10 +40,10 @@ function DynamicSectionPage() {
         <div className="grid grid-cols-1 px-10 md:px-0 md:grid-cols-2 md:gap-6">
           {loading ? (
             <SkeletonContent />
-          ) : blogs?.length > 0 ? (
-            blogs
+          ) : posts?.length > 0 ? (
+            posts
               .map((project) => {
-                return <Post obj={project} href="post" key={project.id} />;
+                return <Post obj={project} href={dynamicSection} key={project.id} />;
               })
               .reverse()
               .splice(entries[0], entries[1])
@@ -61,7 +58,7 @@ function DynamicSectionPage() {
           )}
         </div>
       </div>
-      {pages > 1 && <ButtonPages content="post" />}
+      {pages > 1 && <ButtonPages content={dynamicSection} />}
     </>
   );
 }

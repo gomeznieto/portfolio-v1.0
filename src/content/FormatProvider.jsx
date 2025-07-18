@@ -5,11 +5,10 @@ const FormatContext = createContext();
 
 const FormatProvider = ({ children }) => {
   const [format, setFormat] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const memorizeFormat = useCallback(async () => {
     const { data } = await getFormats();
-    console.log(data)
     setFormat(data);
     setLoading(false);
   }, []);

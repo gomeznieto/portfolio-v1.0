@@ -4,7 +4,7 @@ import useMode from "../hooks/useMode";
 import useProfile from "../hooks/useProfile";
 import useProject from "../hooks/useProjects";
 import useBlog from "../hooks/useBlog";
-import useFormat from "../hooks/useFormats";
+import useFormat from "../hooks/useFormat";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -52,56 +52,33 @@ const Header = () => {
           <div className="flex justify-between">
             <ul className="flex lg:justify-center items-center">
               <li>
-              <Link to="/">
-                <div className="flex icon-header-animation">
-                  <img
-                    src={mode ? "/icon-title.svg" : "/icon-title-ligth.svg"}
-                    className="mr-1"
-                    alt="icono de codigo de porgramacion"
-                  />
-                  <p className="title-page mr-5">{profile?.name}</p>
-                </div>
-              </Link>
+                <Link to="/">
+                  <div className="flex icon-header-animation">
+                    <img
+                      src={mode ? "/icon-title.svg" : "/icon-title-ligth.svg"}
+                      className="mr-1"
+                      alt="icono de codigo de porgramacion"
+                    />
+                    <p className="title-page mr-5">{profile?.name}</p>
+                  </div>
+                </Link>
               </li>
-              {/* <li>
-                <Link
-                  to="works"
-                  className={`hidden md:flex mr-5 link-page hover:underline underline-offset-4 ${
-                    pathname === "/works" &&
-                    "background-nav transition-all duration-500"
-                  }`}
-                  onClick={handleProject}
-                >
-                  Works
-                </Link>
-              </li> */}
               {format?.map((link) => {
-                return <li>
-                  <Link
-                    key={link?.id}
-                    to={link?.name}
-                    className={`hidden md:flex mr-5 link-page hover:underline underline-offset-4 ${
-                      pathname === `/${link?.name}` &&
-                      "background-nav transition-all duration-500"
-                    }`}
-                    onClick={handlePost}
-                  >
-                    {link?.name}
-                  </Link>
-                </li>;
+                return (
+                  <li key={link?.id}>
+                    <Link
+                      to={link?.name}
+                      className={`hidden md:flex mr-5 link-page hover:underline underline-offset-4 ${
+                        pathname === `/${link?.name}` &&
+                        "background-nav transition-all duration-500"
+                      }`}
+                      onClick={handlePost}
+                    >
+                      {link?.name}
+                    </Link>
+                  </li>
+                );
               })}
-              {/* <li>
-                <Link
-                  to="posts"
-                  className={`hidden md:flex mr-5 link-page hover:underline underline-offset-4 ${
-                    pathname === "/posts" &&
-                    "background-nav transition-all duration-500"
-                  }`}
-                  onClick={handlePost}
-                >
-                  Posts
-                </Link>
-              </li> */}
               <li>
                 <a
                   href="https://github.com/alefigure8/portfolio-v1.0"

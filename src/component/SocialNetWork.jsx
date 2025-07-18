@@ -1,12 +1,13 @@
 import React from "react";
 import useMode from "../hooks/useMode";
+import Icono from "./Icon";
 
 const SocialNetwork = ({network}) => {
-
+  const URL = import.meta.env.VITE_URL;
   const { mode } = useMode();
-
+  console.log(network)
   return (
-    <a href={network.link} target="_blank" key={network.social}>
+    <a href={network.url} target="_blank" key={network.id}>
       <button
         className={`social-link py-3 px-4 rounded-lg parraph-social ${
           mode
@@ -14,11 +15,8 @@ const SocialNetwork = ({network}) => {
             : "text-teal-700 underline-link-light underline-link-light"
         }`}
       >
-        <i
-          className={`${network.icon} mr-2 ${mode && "color-link"}`}
-          alt={`Icono de ${network.social}`}
-        ></i>
-        {network.user}
+        <Icono iconContent={network?.icon} color={`mr-2 icon ${mode && "color-link"}`} />
+        {network.username}
       </button>
     </a>
   );
