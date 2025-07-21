@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import useMode from "../hooks/useMode";
-import React from "react";
 
 const Post = ({ obj, href }) => {
   const URL = import.meta.env.VITE_URL;
@@ -8,7 +7,7 @@ const Post = ({ obj, href }) => {
 
   return (
     <Link to={`/${href}/${obj.id}`} key={obj.id}>
-      <div className="flex flex-col items-center mt-2 md:mt-2 cursor-pointer overflow-hidden hover-img">
+      <div className={`transition-all-1 flex flex-col items-center mt-2 md:mt-2 cursor-pointer overflow-hidden hover-img`}>
         <div className="md:w-56 md:h-36 rounded-xl overflow-hidden">
           <img
             src={`${URL}${obj.cover}`}

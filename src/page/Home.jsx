@@ -110,7 +110,7 @@ const Home = () => {
       {/*
         ULTIMOS PROYECTOS
       */}
-      <section className="transition-all-6 mt-9">
+      <section className="transition-all-3 mt-9">
         <Title title="Proyectos" />
         <div className="flex justify-center flex-col md:flex-row mt-6 mb-6 md:gap-6">
           {loading ? (
@@ -134,7 +134,7 @@ const Home = () => {
       {/*
         BIO
       */}
-      <section className=" transition-all-3 mt-9">
+      <section className=" transition-all-4 mt-9">
         <Title title="Bio" />
         {loadingProfile ? (
           <Skeleton />
@@ -166,7 +166,7 @@ const Home = () => {
       {/* 
           ME GUSTA
       */}
-      <section className="mb-6 transition-all-4 mt-9">
+      <section className="mb-6 transition-all-6 mt-9">
         <h4 className={mode ? "sub-title" : "sub-title-light"}>
           I <i className="fa-solid fa-heart text-base underline-gray"></i>
         </h4>
@@ -185,7 +185,7 @@ const Home = () => {
       {/*
         ULTIMOS POSTS
       */}
-      <section className="transition-all-6 mt-9">
+      <section className="transition-all-7 mt-9">
         <Title title="Posts" />
         <div className="flex justify-center flex-col md:flex-row mt-6 mb-6 md:gap-6">
           {loading ? (

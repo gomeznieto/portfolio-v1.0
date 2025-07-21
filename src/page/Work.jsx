@@ -5,7 +5,7 @@ import { setTitle } from "../config/setTitle";
 import { useEffect, useState } from "react";
 import Demo from "../component/Demo";
 import Gallery from "../component/Gallery";
-import Github from "../component/Github";
+import ActionButton from "../component/ActionButton";
 import Prism from "prismjs";
 import Spinner from "../component/Spinner";
 import useMode from "../hooks/useMode";
@@ -70,7 +70,7 @@ const Post = () => {
       <section 
         className={`flex justify-center mt-10 gap-x-4`}
       >
-        <Github href={project?.github} />
+        <ActionButton href={project?.Link} />
         {project?.demo && <Demo href={project?.demo} />}
       </section>
     </div>

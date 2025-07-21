@@ -18,15 +18,25 @@ const postProvider = ({ children }) => {
   const [actualPage, setActualPage] = useState(1);
   let to = ENTRIES * actualPage;
   let since = calcularResultado([6, 0, actualPage]);
-  const [entries, setEntries] = useState([since, to]);
+  const [init, setInit] = useState([since, to]);
 
   // Callback a llamada de posts
   const memorizePost = useCallback(async () => {
     try {
       setLoading(true);
+
+      // Data
       const { data } = await getPost();
-      setPosts(data.items.filter((el) => el.format == `${section}`));
-      setPages(Math.ceil(data.length / ENTRIES));
+      let sectionPost = data.items.filter((el) => el.format == `${section}`);
+      setPosts(sectionPost);
+      
+      // Paginancion reiniciar
+      setPages(Math.ceil(sectionPost.length / ENTRIES));
+      setActualPage(1);
+      to = ENTRIES * actualPage;
+      since = calcularResultado([sectionPost.length < 6 ? sectionPost.length: 6, 0, actualPage]);
+      setInit([since, to]);
+
     } catch (error) {
       console.log(error);
     } finally {
@@ -44,7 +54,7 @@ const postProvider = ({ children }) => {
       const postById = posts?.filter(
         (post) => parseInt(post.id) === parseInt(id)
       );
-  
+
       setPost(postById[0]);
     };
 
@@ -71,8 +81,8 @@ const postProvider = ({ children }) => {
         ENTRIES,
         actualPage,
         setActualPage,
-        setEntries,
-        entries,
+        setInit,
+        init,
         loading,
         setId,
         setSection,

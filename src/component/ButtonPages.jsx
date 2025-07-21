@@ -1,25 +1,18 @@
-import useBlog from "../hooks/useBlog";
 import useMode from "../hooks/useMode";
 import usePost from "../hooks/usePost";
-import useProjects from "../hooks/useProjects";
 
 const ButtonPages = ({ content }) => {
   const { mode } = useMode();
-  const pages = usePost().pages;
-  const ENTRIES = usePost.ENTRIES;
-  const actualPage = usePost.actualPage;
-  const setActualPage = usePost.setActualPage;
-  const setEntries = usePost.setEntries;
-  const entries = usePost.entries;
+  const {pages, ENTRIES, actualPage, setActualPage, setInit, init} = usePost();
 
   const handleNext = () => {
     setActualPage(actualPage + 1);
-    setEntries([entries[0] + ENTRIES, entries[1] + ENTRIES]);
+    setInit([init[0] + ENTRIES, init[1] + ENTRIES]);
   };
 
   const handlePrev = () => {
     setActualPage(actualPage - 1);
-    setEntries([entries[0] - ENTRIES, entries[1] - ENTRIES]);
+    setInit([init[0] - ENTRIES, init[1] - ENTRIES]);
   };
 
   return (

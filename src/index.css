@@ -44,7 +44,7 @@
   line-height: 24px;
   font-size: 17px;
   letter-spacing: -1px;
-
+  min-width: 100%;
 }
 
 .link-page{
@@ -137,6 +137,7 @@
 
 .color-link{
   color: #ff63c3;
+  width: 20px;
 }
 
 .underline-link-light:hover,
@@ -522,3 +523,10 @@
   width: 20px;
 }
 
+/* PILLS */
+.pill-date
+{
+  font-size: 12px;
+  padding: 0 0.5rem;
+  border-radius: 15px;
+}

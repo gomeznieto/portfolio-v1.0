@@ -20,11 +20,11 @@ const Gallery = ({ images }) => {
         <div
           key={index}
           onClick={() => {
-            handleImage(img.source);
+            handleImage(img.url);
             handleOpen();
           }}
         >
-          <Image src={img.source} alt={img.source} />
+          <Image src={img.url} alt={img.name} />
         </div>
       ))}
       {zoomed && (

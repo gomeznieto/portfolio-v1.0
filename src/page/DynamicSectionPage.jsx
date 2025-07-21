@@ -14,9 +14,9 @@ function DynamicSectionPage() {
   const { format } = useFormat();
   const isValidSection = format.some((f) => f.name === dynamicSection);
 
-  const { posts, loading, pages, ENTRIES, entries, setSection } = usePost();
+  const { posts, loading, pages, ENTRIES, init, setSection } = usePost();
   const { mode } = useMode();
-
+  const [begin, end] = init;
   //Colocamos la posicion en la parte superior
   useEffect(() => {
     setPosition();
@@ -24,7 +24,6 @@ function DynamicSectionPage() {
   }, [dynamicSection]);
 
   if (loading) return <Spinner />;
-
   if (!isValidSection) return <Navigate to="/" />;
 
   return (
@@ -46,7 +45,7 @@ function DynamicSectionPage() {
                 return <Post obj={project} href={dynamicSection} key={project.id} />;
               })
               .reverse()
-              .splice(entries[0], entries[1])
+              .slice(begin, end)
           ) : (
             <p
               className={`title-page mt-3 ${

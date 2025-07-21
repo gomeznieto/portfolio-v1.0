@@ -5,12 +5,12 @@ import { setTitle } from "../config/setTitle";
 import { useEffect, useState } from "react";
 import Demo from "../component/Demo";
 import Gallery from "../component/Gallery";
-import Github from "../component/Github";
 import Prism from "prismjs";
 import Spinner from "../component/Spinner";
 import useMode from "../hooks/useMode";
 import usePost from "../hooks/usePost";
 import useFormat from "../hooks/useFormat";
+import ActionButton from "../component/ActionButton";
 
 const DynamicPostPage = () => {
   const [loading, setLoading] = useState(true);
@@ -44,7 +44,9 @@ const DynamicPostPage = () => {
   if (!isValidSection) return <Navigate to="/" />;
 
   const $code =
-    !loading && document.querySelector(".language-javascript")?.firstChild;
+    !loading &&
+    (document.querySelector(".language-javascript")?.firstChild ||
+      document.querySelector(".language-cpp")?.firstChild);
   if ($code) {
     Prism.highlightAll();
   }
@@ -54,13 +56,20 @@ const DynamicPostPage = () => {
   return (
     <div className="mt-6 transition-all-1">
       <h3
-        className={`title-page  mb-5 ${mode ? "text-white" : "text-zinc-800"}`}
+        className={`title-page flex mb-5 ${mode ? "text-white" : "text-zinc-800"}`}
       >
         <Link to={`/${dynamicSection}`}>
           <span className="title-post">{dynamicSection}</span>
         </Link>
         <span className="text-sm mr-2 ml-2 font-light">{`>`}</span>
-        {post?.title}
+        <div className="flex justify-between w-full">
+          {post?.title}
+          <span
+            className={`pill-date bg-gray-600 text-white`}
+          >
+            {post?.created_at.slice(0, 10)}
+          </span>
+        </div>
       </h3>
       <div
         className={mode ? "text-white" : "text-zinc-800"}
@@ -69,18 +78,23 @@ const DynamicPostPage = () => {
       <br />
 
       {/* Gallery */}
-      <section>
-        <h3 className={`font-bold ${mode ? "text-white" : "text-zinc-800"}`}>
-          Capturas
-        </h3>
-        <Gallery images={post?.images} />
-      </section>
+      {post?.media.length > 0 && (
+        <section className="transition-all-2">
+          <h3 className={`font-bold ${mode ? "text-white" : "text-zinc-800"}`}>
+            Capturas
+          </h3>
+          <Gallery images={post?.media} />
+        </section>
+      )}
 
       {/* Links */}
-      <section className={`flex justify-center mt-10 gap-x-4`}>
-        <Github href={post?.github} />
-        {post?.demo && <Demo href={post?.demo} />}
-      </section>
+      {post?.links.length > 0 && (
+        <section className="flex justify-center mt-10 gap-x-4 transition-all-3">
+          {post?.links.map((el) => {
+            return <ActionButton link={el} />;
+          })}
+        </section>
+      )}
     </div>
   );
 };
