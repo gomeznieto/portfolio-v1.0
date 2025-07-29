@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { setPosition } from "../config/setPosition";
+import { useEffect } from "react";
 import AboutMe from "../component/AboutMe";
 import Bio from "../component/Bio";
 import ButtonPrimary from "../component/Button";
@@ -14,7 +15,7 @@ import useBlog from "../hooks/useBlog";
 import useMode from "../hooks/useMode";
 import useProfile from "../hooks/useProfile";
 import useProject from "../hooks/useProjects";
-import { useEffect } from "react";
+import useHome from "../hooks/useHome";
 
 const Home = () => {
   const URL = import.meta.env.VITE_URL;
@@ -22,6 +23,7 @@ const Home = () => {
   const { projects } = useProject();
   const { mode } = useMode();
   const { profile, loadingProfile } = useProfile();
+  const {homeSections, loadingHomeSection} = useHome();
   const POSTS = 2;
 
   //Fields
@@ -29,15 +31,17 @@ const Home = () => {
   const field_like = profile?.hobbies;
 
   //Networks
-  const networks= profile?.networks;
-  // const mail = networks?.find((network) => network.name === "Mail").url;
-  const mail = profile?.email;
+  const networks = profile?.networks;
+  const mail = `mailto:${profile?.email}`;
   const linkedin = networks?.find((network) => network.name === "LinkedIn").url;
 
   //Colocamos la posicion en la parte superior
   useEffect(() => {
     setPosition();
   }, []);
+
+  // Home Sections
+  console.log(homeSections)
 
   return (
     <>
@@ -61,11 +65,11 @@ const Home = () => {
       {loadingProfile ? (
         <Skeleton />
       ) : (
-        <section className="md:flex transition-all-1">
+        <section className="md:flex justify-between transition-all-1">
           <AboutMe
             name={profile?.name}
             // rol={profile?.rol}
-             rol={"Desarrolador"}
+            rol={"Desarrolador"}
             img={`${URL}${profile?.img}`}
           />
         </section>
@@ -95,14 +99,11 @@ const Home = () => {
                   Contáctame
                 </ButtonSocial>
               </a>
-              <a
-                href={linkedin}
-                target="_blank"
-              >
+              {/* <a href={linkedin} target="_blank">
                 <ButtonSocial icon="fa-brands fa-linkedin">
                   Linkedin
                 </ButtonSocial>
-              </a>
+              </a> */}
             </div>
           </>
         )}
@@ -111,24 +112,22 @@ const Home = () => {
         ULTIMOS PROYECTOS
       */}
       <section className="transition-all-3 mt-9">
-        <Title title="Proyectos" />
+        <Title title={homeSections[0]?.homeSectionName} />
         <div className="flex justify-center flex-col md:flex-row mt-6 mb-6 md:gap-6">
-          {loading ? (
+          {loadingHomeSection ? (
             <Spinner />
-          ) : projects.length > 0 ? (
-            projects
+          ) : homeSections[0]?.posts.length > 0 ? (
+            homeSections[0]?.posts
               .map((project) => {
-                return <Post obj={project} href="work" key={project.id} />;
+                return <Post obj={project} href={project?.format} key={project.id} />;
               })
-              .reverse()
-              .slice(0, POSTS)
           ) : (
-            <NoContent msg="No hay proyectos para mostrar" />
+             <NoContent msg={`No hay ${homeSections[0]?.homeSectionName} para mostrar`} />
           )}
         </div>
-        <Link to="works">
-          <ButtonPrimary>Anteriores proyectos</ButtonPrimary>
-        </Link>
+        {/* <Link to="works">
+          <ButtonPrimary>Anteriores {homeSections[0]?.homeSectionName}</ButtonPrimary>
+        </Link> */}
       </section>
 
       {/*
@@ -186,24 +185,22 @@ const Home = () => {
         ULTIMOS POSTS
       */}
       <section className="transition-all-7 mt-9">
-        <Title title="Posts" />
+        <Title title={homeSections[1]?.homeSectionName} />
         <div className="flex justify-center flex-col md:flex-row mt-6 mb-6 md:gap-6">
-          {loading ? (
+          {loadingHomeSection ? (
             <Spinner />
-          ) : blogs.length > 0 ? (
-            blogs
-              .map((blog) => {
-                return <Post obj={blog} href="post" key={blog.id} />;
+          ) : homeSections[1]?.posts.length > 0 ? (
+            homeSections[1]?.posts
+              .map((project) => {
+                return <Post obj={project} href={project?.format} key={project.id} />;
               })
-              .reverse()
-              .slice(0, POSTS)
           ) : (
-            <NoContent msg="No hay posts para mostrar" />
+            <NoContent msg={`No hay ${homeSections[1]?.homeSectionName} para mostrar`} />
           )}
         </div>
-        <Link to="posts">
-          <ButtonPrimary>Anteriores posts</ButtonPrimary>
-        </Link>
+        {/* <Link to="posts">
+          <ButtonPrimary>Anteriores {homeSections[1]?.homeSectionName}</ButtonPrimary>
+        </Link> */}
       </section>
     </>
   );

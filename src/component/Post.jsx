@@ -20,7 +20,7 @@ const Post = ({ obj, href }) => {
           {obj.title}
         </p>
         <p className={`parraph mt-1 ${mode ? "text-gray-400" : "text-zinc-800"}`}>
-          {obj.category}
+          {obj?.categoriesList?.map((el, indice) => `${el?.categoria?.name}${obj?.categoriesList.length != indice + 1 ? ", ": ""} `)}
         </p>
       </div>
     </Link>
