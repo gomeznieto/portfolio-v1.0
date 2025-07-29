@@ -5,7 +5,6 @@ import Icono from "./Icon";
 const SocialNetwork = ({network}) => {
   const URL = import.meta.env.VITE_URL;
   const { mode } = useMode();
-  console.log(network)
   return (
     <a href={network.url} target="_blank" key={network.id}>
       <button
