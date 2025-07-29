@@ -1,9 +1,7 @@
-import { Link } from "react-router-dom";
 import { setPosition } from "../config/setPosition";
 import { useEffect } from "react";
 import AboutMe from "../component/AboutMe";
 import Bio from "../component/Bio";
-import ButtonPrimary from "../component/Button";
 import ButtonSocial from "../component/ButtonSocial";
 import NoContent from "../component/NoContent";
 import Post from "../component/Post";
@@ -11,29 +9,21 @@ import Skeleton from "../component/Skeleton";
 import SocialNetwork from "../component/SocialNetWork";
 import Spinner from "../component/Spinner";
 import Title from "../component/Title";
-import useBlog from "../hooks/useBlog";
 import useMode from "../hooks/useMode";
 import useProfile from "../hooks/useProfile";
-import useProject from "../hooks/useProjects";
 import useHome from "../hooks/useHome";
+import MarkdownRenderer from "../component/common/MarkdownRenderer";
 
 const Home = () => {
   const URL = import.meta.env.VITE_URL;
-  const { blogs, loading } = useBlog();
-  const { projects } = useProject();
   const { mode } = useMode();
   const { profile, loadingProfile } = useProfile();
-  const {homeSections, loadingHomeSection} = useHome();
-  const POSTS = 2;
-
-  //Fields
-  const field_about = profile?.about;
-  const field_like = profile?.hobbies;
+  const { homeSections, loadingHomeSection } = useHome();
 
   //Networks
   const networks = profile?.networks;
   const mail = `mailto:${profile?.email}`;
-  const linkedin = networks?.find((network) => network.name === "LinkedIn").url;
+  // const linkedin = networks?.find((network) => network.name === "LinkedIn").url;
 
   //Colocamos la posicion en la parte superior
   useEffect(() => {
@@ -41,7 +31,7 @@ const Home = () => {
   }, []);
 
   // Home Sections
-  console.log(homeSections)
+  console.log(profile);
 
   return (
     <>
@@ -68,8 +58,7 @@ const Home = () => {
         <section className="md:flex justify-between transition-all-1">
           <AboutMe
             name={profile?.name}
-            // rol={profile?.rol}
-            rol={"Desarrolador"}
+            rol={profile?.headline}
             img={`${URL}${profile?.img}`}
           />
         </section>
@@ -88,8 +77,9 @@ const Home = () => {
               className={`text-justify parraph mb-6 ${
                 mode ? "text-white" : "text-zinc-800"
               }`}
-              dangerouslySetInnerHTML={{ __html: field_about }}
-            ></p>
+            >
+              <MarkdownRenderer content={profile?.about} />
+            </p>
             {/* <Link to="works">
               <ButtonPrimary>Mis trabajos</ButtonPrimary>
             </Link> */}
@@ -117,12 +107,15 @@ const Home = () => {
           {loadingHomeSection ? (
             <Spinner />
           ) : homeSections[0]?.posts.length > 0 ? (
-            homeSections[0]?.posts
-              .map((project) => {
-                return <Post obj={project} href={project?.format} key={project.id} />;
-              })
+            homeSections[0]?.posts.map((project) => {
+              return (
+                <Post obj={project} href={project?.format} key={project.id} />
+              );
+            })
           ) : (
-             <NoContent msg={`No hay ${homeSections[0]?.homeSectionName} para mostrar`} />
+            <NoContent
+              msg={`No hay ${homeSections[0]?.homeSectionName} para mostrar`}
+            />
           )}
         </div>
         {/* <Link to="works">
@@ -176,8 +169,9 @@ const Home = () => {
             className={`text-justify parraph ${
               mode ? "text-white" : "text-zinc-800"
             }`}
-            dangerouslySetInnerHTML={{ __html: field_like }}
-          ></p>
+          >
+            <MarkdownRenderer content={profile?.hobbies} />
+          </p>
         )}
       </section>
 
@@ -190,12 +184,15 @@ const Home = () => {
           {loadingHomeSection ? (
             <Spinner />
           ) : homeSections[1]?.posts.length > 0 ? (
-            homeSections[1]?.posts
-              .map((project) => {
-                return <Post obj={project} href={project?.format} key={project.id} />;
-              })
+            homeSections[1]?.posts.map((project) => {
+              return (
+                <Post obj={project} href={project?.format} key={project.id} />
+              );
+            })
           ) : (
-            <NoContent msg={`No hay ${homeSections[1]?.homeSectionName} para mostrar`} />
+            <NoContent
+              msg={`No hay ${homeSections[1]?.homeSectionName} para mostrar`}
+            />
           )}
         </div>
         {/* <Link to="posts">

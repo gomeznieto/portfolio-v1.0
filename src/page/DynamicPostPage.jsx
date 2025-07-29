@@ -1,16 +1,14 @@
-import "../prism.css";
 import { Link, useParams } from "react-router-dom";
 import { setPosition } from "../config/setPosition";
 import { setTitle } from "../config/setTitle";
 import { useEffect, useState } from "react";
-import Demo from "../component/Demo";
 import Gallery from "../component/Gallery";
-import Prism from "prismjs";
 import Spinner from "../component/Spinner";
 import useMode from "../hooks/useMode";
 import usePost from "../hooks/usePost";
 import useFormat from "../hooks/useFormat";
 import ActionButton from "../component/ActionButton";
+import MarkdownRenderer from "../component/common/MarkdownRenderer";
 
 const DynamicPostPage = () => {
   const [loading, setLoading] = useState(true);
@@ -19,12 +17,12 @@ const DynamicPostPage = () => {
 
   //Obtenemos el id
   const { id } = useParams();
+  
   // Obtenemos la seccion
   const { dynamicSection } = useParams();
 
   const { format } = useFormat();
   const isValidSection = format.some((f) => f.name === dynamicSection);
-  setSection(dynamicSection);
 
   useEffect(() => {
     setId(id);
@@ -38,25 +36,18 @@ const DynamicPostPage = () => {
   //Colocamos la posicion en la parte superior
   useEffect(() => {
     setPosition();
+    setSection(dynamicSection);
   }, []);
 
   if (loading) return <Spinner />;
   if (!isValidSection) return <Navigate to="/" />;
 
-  const $code =
-    !loading &&
-    (document.querySelector(".language-javascript")?.firstChild ||
-      document.querySelector(".language-cpp")?.firstChild);
-  if ($code) {
-    Prism.highlightAll();
-  }
-
-  const field = post?.description;
-
   return (
     <div className="mt-6 transition-all-1">
       <h3
-        className={`title-page flex mb-5 ${mode ? "text-white" : "text-zinc-800"}`}
+        className={`title-page flex mb-5 ${
+          mode ? "text-white" : "text-zinc-800"
+        }`}
       >
         <Link to={`/${dynamicSection}`}>
           <span className="title-post">{dynamicSection}</span>
@@ -64,17 +55,14 @@ const DynamicPostPage = () => {
         <span className="text-sm mr-2 ml-2 font-light">{`>`}</span>
         <div className="flex justify-between w-full">
           {post?.title}
-          <span
-            className={`pill-date bg-gray-600 text-white`}
-          >
+          <span className={`pill-date bg-gray-600 text-white`}>
             {post?.created_at.slice(0, 10)}
           </span>
         </div>
       </h3>
-      <div
-        className={mode ? "text-white" : "text-zinc-800"}
-        dangerouslySetInnerHTML={{ __html: field }}
-      ></div>
+      <div className={mode ? "text-white" : "text-zinc-800"}>
+        <MarkdownRenderer content={post?.description} />
+      </div>
       <br />
 
       {/* Gallery */}
@@ -91,7 +79,7 @@ const DynamicPostPage = () => {
       {post?.links.length > 0 && (
         <section className="flex justify-center mt-10 gap-x-4 transition-all-3">
           {post?.links.map((el) => {
-            return <ActionButton link={el} />;
+            return <ActionButton link={el} key={el?.url} />;
           })}
         </section>
       )}
