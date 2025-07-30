@@ -17,7 +17,7 @@ const DynamicPostPage = () => {
 
   //Obtenemos el id
   const { id } = useParams();
-  
+
   // Obtenemos la seccion
   const { dynamicSection } = useParams();
 
@@ -45,17 +45,19 @@ const DynamicPostPage = () => {
   return (
     <div className="mt-6 transition-all-1">
       <h3
-        className={`title-page flex mb-5 ${
+        className={`title-page flex flex-row mb-5 ${
           mode ? "text-white" : "text-zinc-800"
         }`}
       >
         <Link to={`/${dynamicSection}`}>
           <span className="title-post">{dynamicSection}</span>
         </Link>
-        <span className="text-sm mr-2 ml-2 font-light">{`>`}</span>
+        <span className="text-sm leading-6 mr-2 ml-2 font-light">
+          {<i class="fa-solid fa-chevron-right"></i>}
+        </span>
         <div className="flex justify-between w-full">
           {post?.title}
-          <span className={`pill-date bg-gray-600 text-white`}>
+          <span className={mode ? "pill-date" : "pill-date-light"}>
             {post?.created_at.slice(0, 10)}
           </span>
         </div>

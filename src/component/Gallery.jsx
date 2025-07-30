@@ -3,6 +3,7 @@ import Image from "./Image";
 import ImageZoom from "./ImageZoom";
 
 const Gallery = ({ images }) => {
+  console.log(images)
   const [zoomedSrc, setZoomedSrc] = useState(null);
   const [zoomed, setZoomed] = useState(false);
 
@@ -24,7 +25,7 @@ const Gallery = ({ images }) => {
             handleOpen();
           }}
         >
-          <Image src={img.url} alt={img.name} />
+          <Image src={img.url} alt={img.name} size={img?.size} />
         </div>
       ))}
       {zoomed && (

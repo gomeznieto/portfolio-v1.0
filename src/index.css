@@ -12,6 +12,8 @@
   --color-button: #319795;
   --color-button-hover: #2c7a7b;
   --color-border-gray: ##666;
+  --color-text: #fff;
+  --color-text-ligth: #222;
 }
 
 *{
@@ -37,6 +39,7 @@
   background: #20202380;
 }
 
+/* TITLES */
 
 .title-page{
   font-family: 'M PLUS Rounded 1c', sans-serif;
@@ -524,9 +527,43 @@
 }
 
 /* PILLS */
+.pill-date-light,
 .pill-date
 {
   font-size: 12px;
-  padding: 0 0.5rem;
+  font-weight: 100;
+  padding: 0 0.9rem;
   border-radius: 15px;
+  background-color: rgb(75 85 99);
+  color: #fff;
+}
+
+.pill-date-light{
+  background-color: var(--color-button);
+}
+
+/*code-block*/
+.code-block
+{
+   font-family: "Cascadia Code", sans-serif;
+   font-weight: 600;
+  font-size: 14px;
+}
+
+/* IMAGE POST */
+.image-post
+{
+  max-width: 450px;
+}
+
+.img-text-ligth,
+.img-text
+{
+  font-size: 12px;
+  color: var(--color-text);
+}
+
+.img-text-ligth
+{
+  color: var(--color-text-ligth)
 }
