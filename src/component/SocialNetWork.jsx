@@ -1,9 +1,7 @@
-import React from "react";
 import useMode from "../hooks/useMode";
 import Icono from "./Icon";
 
 const SocialNetwork = ({network}) => {
-  const URL = import.meta.env.VITE_URL;
   const { mode } = useMode();
   return (
     <a href={network.url} target="_blank" key={network.id}>

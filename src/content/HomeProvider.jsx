@@ -11,7 +11,7 @@ const HomeProvider = ({ children }) => {
     try {
       setLoadingHomeSection(true);
       const data = await getHomeSection();
-      setHomeSections(data);
+      setHomeSections(data?.data);
     } catch (error) {
       console.error(error);
     } finally {

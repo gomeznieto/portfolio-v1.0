@@ -5,7 +5,7 @@ export const getHomeSection = async () => {
   const URL_BASE = import.meta.env.VITE_API_URL_BASE;
 
   try {
-    const { data } = await axios(`${URL_BASE}/home`, {
+    const { data } = await axios(`${URL_BASE}/LayoutHome`, {
       "Content-Type": "application/json",
       headers: {
         "X-Api-Key": ACCESS_KEY,
