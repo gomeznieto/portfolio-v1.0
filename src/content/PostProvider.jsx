@@ -27,9 +27,11 @@ const postProvider = ({ children }) => {
 
       // Data
       const { data } = await getPost();
-      let sectionPost = data.items.filter((el) => el.format == `${section}`);
-      setPosts(sectionPost);
-      
+      let sectionPost = data?.items?.filter((el) => el.format == `${section}`);
+
+      if(sectionPost?.length > 0)
+        setPosts(sectionPost);
+
       // Paginancion reiniciar
       setPages(Math.ceil(sectionPost.length / ENTRIES));
       setActualPage(1);
@@ -55,14 +57,18 @@ const postProvider = ({ children }) => {
         (post) => parseInt(post.id) === parseInt(id)
       );
 
-      setPost(postById[0]);
+      if(postById?.length > 0)
+        setPost(postById[0]);
     };
 
     const getPostById = async () => {
       //Obtenemos los datos de la API
       const { data } = await getPost();
-      setPosts(data.items.filter((el) => el.format == `${section}`));
-      setPages(Math.ceil(data.length / ENTRIES));
+
+      if(data?.items?.length > 0){
+        setPosts(data?.items.filter((el) => el.format == `${section}`));
+        setPages(Math.ceil(data.length / ENTRIES));
+      }
 
       //Filtramos el proyecto por su ID
       getPost();

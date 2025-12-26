@@ -34,7 +34,7 @@ const AboutMe = ({ data }) => {
             <div className="flex justify-center min-w-fit md:ml-10 mt-4 md:mt-0">
               <img
                 className="rounded-full w-28 h-28 md:w-24 md:h-24 border-2"
-                src={`${URL}/${data?.data?.profileImage}`}
+                src={`${URL}${data?.data?.profileImage}`}
                 alt="foto de perfil"
               />
             </div>

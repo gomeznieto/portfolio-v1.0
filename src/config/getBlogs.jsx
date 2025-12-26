@@ -14,12 +14,14 @@ export const getBlogs = async () => {
   const URL_BASE = import.meta.env.VITE_API_URL_BASE;
 
     try{
-    const { data } = await axios(`${URL_BASE}/entrada`, {
-      "Content-Type": "application/json",
+    const { data } = await axios.get(`${URL_BASE}/entrada`, {
       headers:{
+      "Content-Type": "application/json",
       "X-Api-Key" : ACCESS_KEY
       }
     });
+
+    console.log(data)
 
     if(data){
       return data;

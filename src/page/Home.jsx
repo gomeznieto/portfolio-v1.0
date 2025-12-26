@@ -14,32 +14,29 @@ const Home = () => {
   useEffect(() => {
     setPosition();
   }, []);
-  console.log(homeSections)
+  console.log("Desde el home", homeSections)
   return (
     <>
       {/* SALUDO INICIAL */}
       <HelloHome />
 
       {/* HOME LAYOUT */}
-      {homeSections?.map((section) => {
+      {homeSections?.length > 0 ? homeSections?.map((section) => {
         switch (section?.type) {
           case HomeLayoutConstants.About:
-            return <AboutMe data={section} />;
-            break;
+            return <AboutMe key={section?.order} data={section} />;
           case HomeLayoutConstants.Bio:
-            return <SectionBio data={section} />;
-            break;
+            return <SectionBio key={section?.order} data={section} />;
           case HomeLayoutConstants.Hobbies:
-            return <SectionHobbie data={section} />;
-            break;
+            return <SectionHobbie key={section?.order} data={section} />;
           case HomeLayoutConstants.SocialNetwork:
-            return <SectionNetwork data={section} />;
-            break;
+            return <SectionNetwork key={section?.order} data={section} />;
           case HomeLayoutConstants.HomeSection:
-            return <SectionPost data={section} />;
-            break;
+            return <SectionPost key={section?.order} data={section} />;
         }
-      })}
+      })
+      : <p>Página en construcción</p>
+      }
     </>
   );
 };
